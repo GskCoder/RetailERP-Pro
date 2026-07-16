@@ -50,6 +50,19 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+
+@app.get("/")
+def root():
+    """Root health check endpoint."""
+    return {"status": "ok", "message": "RetailERP Lite API is live across the cloud!"}
+
+
+@app.get("/api/health")
+def health():
+    """API health check endpoint."""
+    return {"status": "ok", "db": "connected"}
+
+
 # CORS — allow frontend origins
 allowed_origins = [
     settings.FRONTEND_URL,
