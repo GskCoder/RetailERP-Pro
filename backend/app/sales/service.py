@@ -110,7 +110,7 @@ def create_sale(db: Session, data: dict, user: User) -> Sale:
             product.gst_percentage, is_inter_state,
         )
 
-        item_profit = (product.selling_price - product.purchase_price) * item_data["quantity"] - item_discount
+        item_profit = (money(product.selling_price) - money(product.purchase_price)) * item_data["quantity"] - money(item_discount)
 
         sale_item = SaleItem(
             product_id=product.id,
@@ -189,6 +189,38 @@ def create_sale(db: Session, data: dict, user: User) -> Sale:
     sale.items = sale_items
     db.add(sale)
     db.flush()
+
+    # Ledger entries for customer
+    if customer:
+        from app.customers.models import CustomerLedger, TransactionType as CustomerTransactionType
+        
+        # Add sale total as debit
+        customer.current_balance = money(customer.current_balance or 0) + total_amount
+        debit_entry = CustomerLedger(
+            customer_id=customer.id,
+            transaction_type=CustomerTransactionType.sale,
+            reference_id=sale.id,
+            debit=total_amount,
+            credit=Decimal("0.00"),
+            balance_after=customer.current_balance,
+            description=f"Sale Invoice {invoice_number}"
+        )
+        db.add(debit_entry)
+
+        # If payment made at sale time, add credit
+        if amount_paid > 0:
+            payment_amount = money(amount_paid)
+            customer.current_balance = customer.current_balance - payment_amount
+            credit_entry = CustomerLedger(
+                customer_id=customer.id,
+                transaction_type=CustomerTransactionType.payment,
+                reference_id=sale.id,
+                debit=Decimal("0.00"),
+                credit=payment_amount,
+                balance_after=customer.current_balance,
+                description=f"Initial Payment for Invoice {invoice_number}"
+            )
+            db.add(credit_entry)
 
     # Deduct stock via inventory ledger
     for item_data in data["items"]:
@@ -304,6 +336,25 @@ def return_sale(db: Session, sale_id: int, user: User) -> Sale:
 
     sale.status = SaleStatus.returned
 
+    if sale.customer_id:
+        customer = db.query(Customer).filter(Customer.id == sale.customer_id).first()
+        if customer:
+            from app.customers.models import CustomerLedger, TransactionType as CustomerTransactionType
+            # Return reverses the outstanding balance
+            refund_amount = money(sale.amount_due)
+            if refund_amount > 0:
+                customer.current_balance = money(customer.current_balance or 0) - refund_amount
+                ledger_entry = CustomerLedger(
+                    customer_id=customer.id,
+                    transaction_type=CustomerTransactionType.refund,
+                    reference_id=sale.id,
+                    debit=Decimal("0.00"),
+                    credit=refund_amount,
+                    balance_after=customer.current_balance,
+                    description=f"Return for Invoice {sale.invoice_number}"
+                )
+                db.add(ledger_entry)
+
     # Restore stock
     for item in sale.items:
         record_movement(
@@ -337,6 +388,24 @@ def cancel_sale(db: Session, sale_id: int, user: User) -> Sale:
         raise HTTPException(status_code=400, detail=f"Cannot cancel a {sale.status.value} sale")
 
     sale.status = SaleStatus.cancelled
+
+    if sale.customer_id:
+        customer = db.query(Customer).filter(Customer.id == sale.customer_id).first()
+        if customer:
+            from app.customers.models import CustomerLedger, TransactionType as CustomerTransactionType
+            refund_amount = money(sale.amount_due)
+            if refund_amount > 0:
+                customer.current_balance = money(customer.current_balance or 0) - refund_amount
+                ledger_entry = CustomerLedger(
+                    customer_id=customer.id,
+                    transaction_type=CustomerTransactionType.refund,
+                    reference_id=sale.id,
+                    debit=Decimal("0.00"),
+                    credit=refund_amount,
+                    balance_after=customer.current_balance,
+                    description=f"Cancelled Invoice {sale.invoice_number}"
+                )
+                db.add(ledger_entry)
 
     # Restore stock
     for item in sale.items:
@@ -383,6 +452,23 @@ def record_payment(db: Session, sale_id: int, amount: float, user: User) -> Sale
         sale.payment_status = PaymentStatus.paid
     else:
         sale.payment_status = PaymentStatus.partial
+
+    if sale.customer_id:
+        customer = db.query(Customer).filter(Customer.id == sale.customer_id).first()
+        if customer:
+            from app.customers.models import CustomerLedger, TransactionType as CustomerTransactionType
+            payment_amount = money(amount)
+            customer.current_balance = money(customer.current_balance or 0) - payment_amount
+            ledger_entry = CustomerLedger(
+                customer_id=customer.id,
+                transaction_type=CustomerTransactionType.payment,
+                reference_id=sale.id,
+                debit=Decimal("0.00"),
+                credit=payment_amount,
+                balance_after=customer.current_balance,
+                description=f"Payment for Invoice {sale.invoice_number}"
+            )
+            db.add(ledger_entry)
 
     log_action(db, user, "UPDATE", "sale", sale.id, old_values={
         "amount_paid": old_paid,

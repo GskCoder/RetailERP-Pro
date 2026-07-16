@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Products from './pages/Products';
 import Customers from './pages/Customers';
+import CustomerLedger from './pages/CustomerLedger';
 import Suppliers from './pages/Suppliers';
 import Purchases from './pages/Purchases';
 import NewPurchase from './pages/NewPurchase';
@@ -49,6 +50,7 @@ export default function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/products" element={<Products />} />
             <Route path="/customers" element={<Customers />} />
+            <Route path="/customers/:customerId/ledger" element={<CustomerLedger />} />
             <Route path="/suppliers" element={<Suppliers />} />
             <Route path="/purchases" element={<Purchases />} />
             <Route path="/purchases/new" element={<NewPurchase />} />

@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import DataTable from '../components/DataTable';
 import Modal from '../components/Modal';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import { formatCurrency } from '../utils/formatters';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Book, DollarSign } from 'lucide-react';
 import toast from 'react-hot-toast';
+import AddPaymentModal from '../components/AddPaymentModal';
 
 const emptyCustomer = { customer_name: '', phone_number: '', email: '', address: '', gstin: '', state: '' };
 
 export default function Customers() {
   const { isAdmin } = useAuth();
+  const navigate = useNavigate();
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -19,6 +22,8 @@ export default function Customers() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(emptyCustomer);
   const [saving, setSaving] = useState(false);
+  const [paymentOpen, setPaymentOpen] = useState(false);
+  const [activeCustomer, setActiveCustomer] = useState(null);
 
   async function loadCustomers() {
     setLoading(true);
@@ -36,6 +41,8 @@ export default function Customers() {
 
   function openAdd() { setEditing(null); setForm(emptyCustomer); setModalOpen(true); }
   function openEdit(c) { setEditing(c); setForm({ ...c }); setModalOpen(true); }
+  function openLedger(c) { navigate(`/customers/${c.id}/ledger`); }
+  function openPayment(c) { setActiveCustomer(c); setPaymentOpen(true); }
 
   async function handleSave(e) {
     e.preventDefault();
@@ -63,6 +70,7 @@ export default function Customers() {
     { key: 'state', label: 'State', render: r => r.state || '-' },
     { key: 'gstin', label: 'GSTIN', render: r => r.gstin || '-' },
     { key: 'total_purchases', label: 'Total Purchases', render: r => formatCurrency(r.total_purchases) },
+    { key: 'current_balance', label: 'Balance Due', render: r => formatCurrency(r.current_balance) },
   ];
 
   return (
@@ -79,6 +87,8 @@ export default function Customers() {
           <DataTable columns={columns} data={customers} loading={loading} searchable={false}
             actions={row => (
               <>
+                <button className="btn btn-ghost btn-icon btn-sm" title="View Ledger" onClick={e => { e.stopPropagation(); openLedger(row); }}><Book size={14} /></button>
+                <button className="btn btn-ghost btn-icon btn-sm" title="Add Payment" onClick={e => { e.stopPropagation(); openPayment(row); }}><DollarSign size={14} /></button>
                 <button className="btn btn-ghost btn-icon btn-sm" onClick={e => { e.stopPropagation(); openEdit(row); }}><Edit size={14} /></button>
                 {isAdmin && <button className="btn btn-ghost btn-icon btn-sm" onClick={e => { e.stopPropagation(); handleDelete(row); }} style={{ color: 'var(--color-danger)' }}><Trash2 size={14} /></button>}
               </>
@@ -102,6 +112,8 @@ export default function Customers() {
           <div className="form-group" style={{ gridColumn: '1 / -1' }}><label className="form-label">Address</label><textarea className="form-input" value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} rows={2} /></div>
         </form>
       </Modal>
+
+      <AddPaymentModal isOpen={paymentOpen} onClose={() => setPaymentOpen(false)} customer={activeCustomer} onSuccess={loadCustomers} />
     </>
   );
 }
