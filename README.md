@@ -10,7 +10,7 @@
 
 ## Overview
 
-RetailERP-Pro (formerly Papa_project) is a modern, full-stack enterprise resource planning solution tailored for retail businesses. It provides an intuitive interface for point-of-sale operations, inventory tracking, GST-compliant invoicing, and comprehensive audit logging.
+RetailERP-Pro is a modern, full-stack enterprise resource planning solution tailored for retail businesses. It provides an intuitive interface for point-of-sale operations, inventory tracking, GST-compliant invoicing, and comprehensive audit logging.
 
 ## Core Features
 
