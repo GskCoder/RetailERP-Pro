@@ -76,101 +76,102 @@ export default function SupplierForm({ isOpen, onClose, supplier, onSaved }) {
       size="md"
       footer={
         <>
-          <button type="button" className="btn-ghost" onClick={onClose} disabled={loading}>
+          {/* Updated button classes to match system styling */}
+          <button type="button" className="btn btn-secondary" onClick={onClose} disabled={loading}>
             Cancel
           </button>
-          <button type="button" className="btn-primary" onClick={handleSubmit} disabled={loading}>
+          <button type="button" className="btn btn-primary" onClick={handleSubmit} disabled={loading}>
             {loading ? 'Saving...' : 'Save'}
           </button>
         </>
       }
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">Supplier Name *</label>
+      {/* Updated to use CSS Grid layout mirroring the Customers component */}
+      <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+          <label className="form-label">Supplier Name *</label>
           <input
             type="text"
             name="supplier_name"
             value={formData.supplier_name}
             onChange={handleChange}
-            className="input-field"
+            className="form-input"
             placeholder="e.g. Acme Corp"
             required
           />
         </div>
         
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Contact Person</label>
-            <input
-              type="text"
-              name="contact_person"
-              value={formData.contact_person}
-              onChange={handleChange}
-              className="input-field"
-              placeholder="Name of contact"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Phone Number *</label>
-            <input
-              type="text"
-              name="phone_number"
-              value={formData.phone_number}
-              onChange={handleChange}
-              className="input-field"
-              placeholder="10-digit number"
-              required
-            />
-          </div>
+        <div className="form-group">
+          <label className="form-label">Contact Person</label>
+          <input
+            type="text"
+            name="contact_person"
+            value={formData.contact_person}
+            onChange={handleChange}
+            className="form-input"
+            placeholder="Name of contact"
+          />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">Email</label>
+        <div className="form-group">
+          <label className="form-label">Phone Number *</label>
+          <input
+            type="text"
+            name="phone_number"
+            value={formData.phone_number}
+            onChange={handleChange}
+            className="form-input"
+            placeholder="10-digit number"
+            required
+          />
+        </div>
+
+        <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+          <label className="form-label">Email</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="input-field"
+            className="form-input"
             placeholder="supplier@example.com"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">Address</label>
+        <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+          <label className="form-label">Address</label>
           <textarea
             name="address"
             value={formData.address}
             onChange={handleChange}
-            className="input-field min-h-[80px]"
+            className="form-input"
+            style={{ minHeight: '80px' }}
             placeholder="Full address"
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">GSTIN</label>
-            <input
-              type="text"
-              name="gstin"
-              value={formData.gstin}
-              onChange={handleChange}
-              className="input-field uppercase"
-              placeholder="e.g. 27AAAAA0000A1Z5"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">State</label>
-            <input
-              type="text"
-              name="state"
-              value={formData.state}
-              onChange={handleChange}
-              className="input-field"
-              placeholder="e.g. Maharashtra"
-            />
-          </div>
+        <div className="form-group">
+          <label className="form-label">GSTIN</label>
+          <input
+            type="text"
+            name="gstin"
+            value={formData.gstin}
+            onChange={handleChange}
+            className="form-input uppercase"
+            placeholder="e.g. 27AAAAA0000A1Z5"
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">State</label>
+          <input
+            type="text"
+            name="state"
+            value={formData.state}
+            onChange={handleChange}
+            className="form-input"
+            placeholder="e.g. Maharashtra"
+          />
         </div>
       </form>
     </Modal>
