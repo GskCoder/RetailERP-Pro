@@ -59,6 +59,7 @@ export default function Sidebar({ collapsed, onToggle }) {
           background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-light))',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           flexShrink: 0,
+          boxShadow: '0 2px 8px rgba(99, 102, 241, 0.25)',
         }}>
           <Store size={20} color="white" />
         </div>
@@ -95,12 +96,12 @@ export default function Sidebar({ collapsed, onToggle }) {
                 textDecoration: 'none',
                 justifyContent: collapsed ? 'center' : 'flex-start',
                 transition: 'var(--transition)',
-                background: isActive ? 'linear-gradient(135deg, rgba(79,70,229,0.15), rgba(99,102,241,0.08))' : 'transparent',
+                background: isActive ? 'rgba(99, 102, 241, 0.08)' : 'transparent',
                 borderLeft: isActive ? '3px solid var(--color-primary)' : '3px solid transparent',
                 color: isActive ? 'var(--color-primary-light)' : 'var(--color-text-secondary)',
               }}
               onMouseEnter={e => {
-                if (!isActive) e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
+                if (!isActive) e.currentTarget.style.background = 'var(--color-surface-hover)';
               }}
               onMouseLeave={e => {
                 if (!isActive) e.currentTarget.style.background = 'transparent';

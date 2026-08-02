@@ -43,7 +43,7 @@ export default function Header({ title }) {
           }}
           onMouseEnter={e => {
             e.currentTarget.style.borderColor = 'var(--color-text-muted)';
-            e.currentTarget.style.background = 'var(--color-surface-elevated)';
+            e.currentTarget.style.background = 'var(--color-surface-hover)';
           }}
           onMouseLeave={e => {
             e.currentTarget.style.borderColor = 'var(--color-border)';
@@ -54,8 +54,8 @@ export default function Header({ title }) {
           <span style={{ flex: 1, textAlign: 'left' }}>Search...</span>
           <kbd style={{
             padding: '1px 6px', borderRadius: 4,
-            background: 'rgba(255,255,255,0.06)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            background: 'var(--color-bg)',
+            border: '1px solid var(--color-border)',
             fontSize: 11, color: 'var(--color-text-muted)',
           }}>
             Ctrl+K
@@ -116,7 +116,7 @@ export default function Header({ title }) {
                   color: 'var(--color-text-secondary)', cursor: 'pointer', fontSize: 13,
                   transition: 'var(--transition)',
                 }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'}
+                onMouseEnter={e => e.currentTarget.style.background = 'var(--color-surface-hover)'}
                 onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
               >
                 <User size={16} /> Profile

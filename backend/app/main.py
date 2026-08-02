@@ -4,9 +4,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.core.database import create_tables, SessionLocal
-from app.auth.service import seed_default_admin
-from app.settings.service import get_settings
 
 # Import all routers
 from app.auth.router import router as auth_router
@@ -28,19 +25,12 @@ from app.search.router import router as search_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Startup: create tables, seed admin, init settings."""
-    create_tables()
-    db = SessionLocal()
-    try:
-        seed_default_admin(db)
-        get_settings(db)  # Creates default settings row
-        from app.expenses.service import seed_default_categories
-        seed_default_categories(db)  # Creates default expense categories
-    finally:
-        db.close()
-    print("[OK] RetailERP Lite backend started!")
+    """Startup: create tables, seed demo data (idempotent)."""
+    from seed import run_comprehensive_seed
+    run_comprehensive_seed()
+    print("[OK] RetailERP-Pro backend started!")
     yield
-    print("[STOP] RetailERP Lite backend stopped.")
+    print("[STOP] RetailERP-Pro backend stopped.")
 
 
 app = FastAPI(

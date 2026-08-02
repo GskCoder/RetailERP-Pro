@@ -1,6 +1,8 @@
 # RetailERP-Pro
 
-> **Comprehensive GST Billing, Inventory, Customer & Sales Management System for Small and Medium Enterprises**
+> **Complete GST Billing, Inventory, Customer & Sales Management System for Indian SMEs**
+
+![Dashboard Preview](docs/dashboard_screenshot.png)
 
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
@@ -8,20 +10,69 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
+---
+
 ## Overview
 
-RetailERP-Pro is a modern, full-stack enterprise resource planning solution tailored for retail businesses. It provides an intuitive interface for point-of-sale operations, inventory tracking, GST-compliant invoicing, and comprehensive audit logging.
+RetailERP-Pro is a production-ready, full-stack ERP solution built for Indian retail shops, electronics stores, and small businesses. It handles everything from daily point-of-sale billing with GST tax calculations, to inventory management, purchase tracking, expense logging, and detailed business analytics — all through a clean, modern web interface.
 
-## Core Features
+The system auto-seeds with realistic demo data on first boot, so you can explore every feature right away.
 
-- **Role-Based Access Control** — Secure JWT authentication with strict separation of privileges between administrators and staff members.
-- **Advanced Product Management** — Full lifecycle management of products, supporting custom categorizations, barcode integration, and configurable HSN codes.
-- **Automated GST Engine** — Real-time calculation and application of appropriate tax brackets (0%, 5%, 12%, 18%, 28%) including cross-state (IGST) and intra-state (CGST/SGST) logic.
-- **Point-of-Sale (POS) Module** — Streamlined billing interface optimized for rapid customer checkout with real-time inventory deduction.
-- **Dynamic Invoicing** — Automated generation of professional, A4-sized PDF invoices integrated with payment QR codes.
-- **Accounts Receivable & Payment Tracking** — Multi-channel payment recording (Cash, UPI, Card) and dedicated modules for tracking outstanding credit sales.
-- **Immutable Audit Trail** — Strict logging of all data mutations, capturing both pre- and post-modification states for compliance and security review.
-- **Dockerized Architecture** — Containerized microservices ensuring environment consistency across development, staging, and production.
+---
+
+## Key Features
+
+### Billing & Sales
+- **Point-of-Sale (POS)** — Fast checkout interface with barcode scanning, real-time stock validation, and multi-item invoicing
+- **GST Tax Engine** — Automatic CGST/SGST (intra-state) or IGST (inter-state) calculation based on customer location, supporting all GST slabs (0%, 5%, 12%, 18%, 28%)
+- **Payment Tracking** — Support for Cash, UPI, Card, and Credit payments with due date tracking
+- **Credit Management** — Track outstanding balances, record partial payments, and view customer-wise credit history
+
+### Inventory & Products
+- **Product Catalog** — Full product management with categories, brands, HSN codes, barcodes, purchase/selling prices, and stock levels
+- **Stock Ledger** — Every stock movement (purchase, sale, return, manual adjustment) is recorded with running balance
+- **Low Stock Alerts** — Dashboard warnings when any product drops below configured minimum stock
+- **Category Management** — Organize products into logical groups
+
+### Purchase & Supplier Management
+- **Purchase Orders** — Record stock purchases from suppliers with line items, tax, and payment status
+- **Supplier Directory** — Maintain supplier contacts, GSTIN, and state for tax determination
+- **Purchase History** — Track all inbound stock with supplier invoices
+
+### Customers & Accounts
+- **Customer Database** — Store customer details, GSTIN, state, and contact information
+- **Customer Ledger** — Double-entry style ledger with sale debits, payment credits, and running balances
+- **Accounts Receivable** — View all pending credit sales at a glance from the dashboard
+
+### Invoicing
+- **PDF Invoice Generation** — Auto-generated professional A4 invoices with GST breakdowns, payment QR codes, and shop branding
+- **Invoice History** — Browse and re-download any previously generated invoice
+
+### Analytics & Reports
+- **Business Analytics** — Revenue trends, top-selling products, top customers, category-wise breakdown, and payment method distribution
+- **Sales Reports** — Date-range filtered reports with totals, tax summaries, and profit calculations
+- **Expense Tracking** — Log business expenses across categories (Rent, Salary, Utilities, Transport, etc.) with monthly summaries
+
+### Security & Audit
+- **Role-Based Access** — Admin and Staff roles with JWT authentication
+- **Immutable Audit Trail** — Every data mutation (create, update, delete) is logged with before/after snapshots
+- **Staff Management** — Create/deactivate staff accounts with forced password change on first login
+
+### Settings
+- **Shop Configuration** — Set shop name, address, phone, email, GSTIN, state, and invoice prefix
+- **Database Backup** — Export and import database backups from the admin panel
+
+---
+
+## Demo
+
+### Dashboard Walkthrough
+
+![Dashboard Demo](docs/dashboard_demo.webp)
+
+The demo shows the dashboard with seeded data, navigating through Products, Customers, Sales, and Analytics pages.
+
+---
 
 ## Technology Stack
 
@@ -30,52 +81,45 @@ RetailERP-Pro is a modern, full-stack enterprise resource planning solution tail
 | **Frontend UI** | React 19, Tailwind CSS 4, Recharts, Lucide Icons |
 | **Backend API** | FastAPI, SQLAlchemy, Pydantic |
 | **Authentication** | JWT (python-jose), bcrypt password hashing |
-| **Database layer** | SQLite (Development), PostgreSQL-compatible |
-| **Document Generation**| ReportLab, qrcode |
+| **Database** | SQLite (dev), PostgreSQL via Neon (production) |
+| **Document Generation** | ReportLab, qrcode |
 | **Infrastructure** | Docker, Docker Compose, Nginx |
+| **Deployment** | Vercel (frontend), Render (backend) |
 
-## Deployment Guide (Recommended)
+---
 
-The recommended method for deploying RetailERP-Pro is via Docker to ensure dependency encapsulation and environment parity.
+## Quick Start
 
-### Prerequisites
-- Docker Engine
-- Docker Compose
-
-### Execution
+### Docker (Recommended)
 
 ```bash
 # Clone the repository
 git clone https://github.com/GskCoder/RetailERP-Pro.git
 cd RetailERP-Pro
 
-# Initialize and start the containerized application
+# Start the application
 docker compose up -d --build
 ```
 
-The application services will be accessible at:
-- **Frontend Dashboard:** `http://localhost`
-- **Backend API Documentation:** `http://localhost:8000/docs`
+Access the app:
+- **Frontend:** `http://localhost`
+- **API Docs:** `http://localhost:8000/docs`
 
-To gracefully halt the application and remove the container runtime environments:
 ```bash
+# Stop the application
 docker compose down
 ```
 
-## Local Development Setup
+### Local Development
 
-For developers requiring direct access to the application runtimes without containerization:
+**Prerequisites:** Python 3.11+, Node.js 20+
 
-### Prerequisites
-- Python 3.11+
-- Node.js 20+
-
-### Backend Initialization
+**Backend:**
 ```bash
 cd backend
 python -m venv venv
 
-# Activate Virtual Environment
+# Activate virtual environment
 venv\Scripts\activate      # Windows
 # source venv/bin/activate  # Linux/macOS
 
@@ -83,46 +127,99 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-### Frontend Initialization
+**Frontend:**
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-## Default System Credentials
+The backend auto-seeds with demo data on first run. No manual setup needed.
 
-Upon initial deployment, authenticate using the default system administrator credentials:
-- **Username:** `admin`
-- **Password:** `admin123`
+---
 
-*Note: The system will enforce a password rotation policy upon the first successful authentication.*
+## Default Credentials
 
-## System Architecture
+| Username | Password | Role |
+|:---------|:---------|:-----|
+| `admin` | `admin123` | Administrator |
+
+---
+
+## Data Seeding
+
+The system comes with a comprehensive seed script that populates all modules on first boot:
+
+- **30 products** across 8 categories (phones, audio, accessories, etc.)
+- **5 suppliers** with Indian addresses and GSTINs
+- **10 customers** across multiple Indian states
+- **20 sales** with mixed payment methods and GST calculations
+- **8 purchase orders** from suppliers
+- **15 expenses** across categories (rent, salary, utilities, etc.)
+- **Audit logs** for all operations
+
+To re-seed, delete `backend/retailerp.db` and restart the backend.
+
+---
+
+## Project Structure
 
 ```text
 RetailERP-Pro/
 ├── backend/
 │   ├── app/
-│   │   ├── core/           # Configuration, database drivers, and security primitives
-│   │   ├── auth/           # Identity provider and JWT issuance
-│   │   ├── settings/       # Global application configurations
+│   │   ├── core/           # Config, database, security, dependencies
+│   │   ├── auth/           # JWT authentication & user management
+│   │   ├── settings/       # Shop configuration (singleton)
 │   │   ├── audit/          # Immutable mutation logging
-│   │   ├── products/       # Inventory definition models
-│   │   ├── customers/      # Client relationship management
-│   │   ├── inventory/      # Transactional stock ledger
-│   │   ├── sales/          # Transaction processing and GST computation
-│   │   └── invoices/       # PDF generation services
+│   │   ├── products/       # Product catalog & categories
+│   │   ├── customers/      # Customer CRM & ledger
+│   │   ├── inventory/      # Stock ledger & transactions
+│   │   ├── sales/          # POS, invoicing, GST computation
+│   │   ├── invoices/       # PDF generation
+│   │   ├── suppliers/      # Supplier management
+│   │   ├── purchases/      # Purchase order tracking
+│   │   ├── expenses/       # Expense tracking & categories
+│   │   ├── reports/        # Sales & financial reports
+│   │   ├── analytics/      # Business intelligence & charts
+│   │   ├── backup/         # Database export/import
+│   │   └── search/         # Global search across entities
+│   ├── seed.py             # Comprehensive demo data seeder
 │   ├── requirements.txt
-│   └── Dockerfile          # Backend container definition
+│   └── Dockerfile
 ├── frontend/
 │   ├── src/
-│   │   ├── components/     # Reusable React UI components
-│   │   ├── pages/          # Primary routing views
-│   │   ├── context/        # Application state management
-│   │   ├── utils/          # Formatting and computational utilities
-│   │   └── api/            # Axios HTTP client configuration
-│   ├── nginx.conf          # Reverse proxy and static file server configuration
-│   └── Dockerfile          # Frontend container definition
-└── docker-compose.yml      # Service orchestration definition
+│   │   ├── components/     # Reusable UI components
+│   │   ├── pages/          # Route-level page components
+│   │   ├── context/        # React context (auth, theme)
+│   │   ├── utils/          # Formatting & helper utilities
+│   │   └── api/            # Axios HTTP client
+│   ├── nginx.conf
+│   └── Dockerfile
+├── docs/                   # Screenshots & demo assets
+├── docker-compose.yml
+└── render.yaml             # Render deployment blueprint
 ```
+
+---
+
+## Environment Variables
+
+Copy `backend/.env.example` to `backend/.env` and configure:
+
+```env
+# Database (SQLite for dev, PostgreSQL for production)
+DATABASE_URL=sqlite:///./retailerp.db
+
+# JWT Secret (use a strong random key in production)
+SECRET_KEY=change-me-to-a-real-secret-key
+
+# Frontend URL for CORS
+FRONTEND_URL=http://localhost:5173
+```
+
+---
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).

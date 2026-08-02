@@ -134,8 +134,8 @@ export default function SearchPalette() {
         className="animate-fade-in"
         style={{
           position: 'absolute', inset: 0,
-          background: 'rgba(0, 0, 0, 0.6)',
-          backdropFilter: 'blur(8px)',
+          background: 'rgba(0, 0, 0, 0.25)',
+          backdropFilter: 'blur(6px),',
         }}
       />
 
@@ -147,11 +147,11 @@ export default function SearchPalette() {
           position: 'relative',
           width: '100%', maxWidth: 620,
           margin: '0 20px',
-          background: 'rgba(15, 23, 42, 0.95)',
+          background: '#FFFFFF',
           backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+          border: '1px solid var(--color-border)',
           borderRadius: 'var(--radius-xl)',
-          boxShadow: '0 25px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(79, 70, 229, 0.1)',
+          boxShadow: '0 25px 60px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0,0,0,0.04)',
           overflow: 'hidden',
         }}
       >
@@ -159,7 +159,7 @@ export default function SearchPalette() {
         <div style={{
           display: 'flex', alignItems: 'center', gap: 12,
           padding: '16px 20px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+          borderBottom: '1px solid var(--color-border-light)',
         }}>
           <Search size={20} style={{ color: 'var(--color-primary-light)', flexShrink: 0 }} />
           <input
@@ -197,8 +197,8 @@ export default function SearchPalette() {
             )}
             <kbd style={{
               padding: '2px 8px', borderRadius: 4,
-              background: 'rgba(255, 255, 255, 0.06)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'var(--color-bg)',
+              border: '1px solid var(--color-border)',
               color: 'var(--color-text-muted)', fontSize: 11,
               fontFamily: 'inherit',
             }}>
@@ -270,7 +270,7 @@ export default function SearchPalette() {
                             border: 'none',
                             borderRadius: 'var(--radius-md)',
                             background: isSelected
-                              ? 'linear-gradient(135deg, rgba(79,70,229,0.15), rgba(99,102,241,0.08))'
+                              ? 'rgba(99, 102, 241, 0.08)'
                               : 'transparent',
                             color: 'var(--color-text-primary)',
                             cursor: 'pointer',
@@ -320,15 +320,15 @@ export default function SearchPalette() {
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '10px 16px',
-          borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+          borderTop: '1px solid var(--color-border-light)',
           fontSize: 11, color: 'var(--color-text-muted)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
               <kbd style={{
                 padding: '1px 5px', borderRadius: 3,
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: 'var(--color-bg)',
+                border: '1px solid var(--color-border)',
                 fontSize: 10,
               }}>↑↓</kbd>
               navigate
@@ -336,8 +336,8 @@ export default function SearchPalette() {
             <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
               <kbd style={{
                 padding: '1px 5px', borderRadius: 3,
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: 'var(--color-bg)',
+                border: '1px solid var(--color-border)',
                 fontSize: 10,
               }}>↵</kbd>
               select

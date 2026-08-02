@@ -15,7 +15,7 @@ const REPORT_TYPES = [
   { id: 'inventory', label: 'Inventory Report', icon: Package, color: 'var(--color-info)' },
   { id: 'gst', label: 'GST Report', icon: Receipt, color: 'var(--color-primary)' },
   { id: 'customers', label: 'Customer Report', icon: Users, color: 'var(--color-warning)' },
-  { id: 'profit_loss', label: 'Profit & Loss', icon: BarChart3, color: '#8B5CF6' },
+  { id: 'profit_loss', label: 'Profit & Loss', icon: BarChart3, color: 'var(--card-violet)' },
 ];
 
 const STOCK_FILTERS = [
@@ -269,14 +269,14 @@ function ReportSummary({ data, activeReport }) {
     sales: [
       { icon: TrendingUp, label: 'Total Sales', value: summary.total_sales, color: 'var(--color-primary)' },
       { icon: IndianRupee, label: 'Revenue', value: summary.total_revenue, prefix: '₹', color: 'var(--color-success)' },
-      { icon: ArrowUpRight, label: 'Profit', value: summary.total_profit, prefix: '₹', color: '#10B981' },
+      { icon: ArrowUpRight, label: 'Profit', value: summary.total_profit, prefix: '₹', color: 'var(--card-emerald)' },
       { icon: Receipt, label: 'Total Tax', value: summary.total_tax, prefix: '₹', color: 'var(--color-warning)' },
     ],
     inventory: [
       { icon: Package, label: 'Total Products', value: summary.total_products, color: 'var(--color-info)' },
       { icon: IndianRupee, label: 'Stock Value (Cost)', value: summary.total_stock_value, prefix: '₹', color: 'var(--color-warning)' },
       { icon: IndianRupee, label: 'Retail Value', value: summary.total_retail_value, prefix: '₹', color: 'var(--color-success)' },
-      { icon: ArrowUpRight, label: 'Potential Profit', value: summary.potential_profit, prefix: '₹', color: '#10B981' },
+      { icon: ArrowUpRight, label: 'Potential Profit', value: summary.potential_profit, prefix: '₹', color: 'var(--card-emerald)' },
     ],
     gst: [
       { icon: IndianRupee, label: 'Taxable Value', value: summary.total_taxable_value, prefix: '₹', color: 'var(--color-info)' },
@@ -292,7 +292,7 @@ function ReportSummary({ data, activeReport }) {
     profit_loss: [
       { icon: IndianRupee, label: 'Revenue', value: summary.total_revenue, prefix: '₹', color: 'var(--color-success)' },
       { icon: Package, label: 'COGS', value: summary.total_cogs, prefix: '₹', color: 'var(--color-warning)' },
-      { icon: ArrowUpRight, label: 'Gross Profit', value: summary.gross_profit, prefix: '₹', color: '#10B981' },
+      { icon: ArrowUpRight, label: 'Gross Profit', value: summary.gross_profit, prefix: '₹', color: 'var(--card-emerald)' },
       { icon: TrendingUp, label: 'Net Profit', value: summary.net_profit, prefix: '₹', color: 'var(--color-primary)' },
     ],
   };

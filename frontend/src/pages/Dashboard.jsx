@@ -44,7 +44,7 @@ export default function Dashboard() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16, marginBottom: 28 }}>
           <StatsCard icon={ShoppingCart} label="Today's Sales" value={stats.today_count} suffix=" orders" color="var(--color-primary)" delay={0} />
           <StatsCard icon={IndianRupee} label="Today's Revenue" value={stats.today_revenue} prefix="₹" color="var(--color-success)" delay={100} />
-          <StatsCard icon={TrendingUp} label="Today's Profit" value={stats.today_profit} prefix="₹" color="#10B981" delay={200} />
+          <StatsCard icon={TrendingUp} label="Today's Profit" value={stats.today_profit} prefix="₹" color="var(--card-emerald)" delay={200} />
           <StatsCard icon={Package} label="Total Products" value={products.total || 0} color="var(--color-info)" delay={300} />
           <StatsCard icon={AlertTriangle} label="Low Stock Items" value={lowStock.length} color="var(--color-warning)" delay={400} />
           <StatsCard icon={CreditCard} label="Credit Pending" value={creditPending.length} suffix=" sales" color="var(--color-danger)" delay={500} />
@@ -70,7 +70,7 @@ export default function Dashboard() {
                       padding: '12px 20px', borderBottom: '1px solid var(--color-border-light)',
                       cursor: 'pointer', transition: 'var(--transition)',
                     }}
-                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}
+                    onMouseEnter={e => e.currentTarget.style.background = 'var(--color-surface-hover)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                   >
                     <div>

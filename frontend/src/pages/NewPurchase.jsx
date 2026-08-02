@@ -102,42 +102,58 @@ export default function NewPurchase() {
     <>
       <Header title="Record Purchase (Stock Intake)" />
       
-      {/* Added standard padding wrapper for the page content */}
       <div style={{ padding: 28, flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-        <div className="flex-1 overflow-hidden flex flex-col lg:flex-row gap-6">
+        <div style={{ flex: 1, overflow: 'hidden', display: 'flex', gap: 24 }}>
           
           {/* Left Side: Product Search & Catalog */}
-          <div className="flex-1 flex flex-col gap-4 min-w-[300px]">
-            {/* Updated 'card' to 'glass-card' and added padding */}
-            <div className="glass-card h-full flex flex-col p-5">
-              <div className="mb-4 relative">
-                <Search className="absolute left-3 top-3 text-slate-400" size={18} />
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 16, minWidth: 300 }}>
+            <div className="glass-card" style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: 20 }}>
+              <div style={{ marginBottom: 16, position: 'relative' }}>
+                <Search size={18} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }} />
                 <input
                   type="text"
                   placeholder="Search products to add..."
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                   className="form-input"
-                  style={{ paddingLeft: '2.5rem' }}
+                  style={{ paddingLeft: 42 }}
                 />
               </div>
               
-              <div className="flex-1 overflow-y-auto pr-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div style={{ flex: 1, overflowY: 'auto', paddingRight: 8, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12, alignContent: 'start' }}>
                 {products
                   .filter(p => p.product_name.toLowerCase().includes(search.toLowerCase()) || p.barcode?.includes(search))
                   .slice(0, 20)
                   .map(product => (
                     <div 
                       key={product.id}
-                      className="p-3 rounded-xl border border-slate-700/50 bg-slate-800/30 hover:bg-slate-700/50 cursor-pointer transition-colors flex justify-between items-center"
                       onClick={() => addToCart(product)}
+                      style={{
+                        padding: 12, borderRadius: 'var(--radius-md)',
+                        border: '1px solid var(--color-border)',
+                        background: 'var(--color-surface)',
+                        cursor: 'pointer', transition: 'var(--transition)',
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.borderColor = 'var(--color-primary-light)';
+                        e.currentTarget.style.background = 'var(--color-primary-subtle)';
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.borderColor = 'var(--color-border)';
+                        e.currentTarget.style.background = 'var(--color-surface)';
+                      }}
                     >
-                      <div className="truncate pr-2">
-                        <div className="font-medium text-sm truncate" title={product.product_name}>{product.product_name}</div>
-                        <div className="text-xs text-slate-400 mt-1">Stock: {product.stock_quantity}</div>
+                      <div style={{ overflow: 'hidden', paddingRight: 8 }}>
+                        <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={product.product_name}>{product.product_name}</div>
+                        <div style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 4 }}>Stock: {product.stock_quantity}</div>
                       </div>
-                      <div className="flex-shrink-0">
-                        <div className="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                      <div style={{ flexShrink: 0 }}>
+                        <div style={{
+                          width: 32, height: 32, borderRadius: '50%',
+                          background: 'var(--color-primary-subtle)', color: 'var(--color-primary)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        }}>
                           <Plus size={16} />
                         </div>
                       </div>
@@ -148,14 +164,13 @@ export default function NewPurchase() {
           </div>
 
           {/* Right Side: Cart & Details */}
-          <div className="w-full lg:w-[450px] flex flex-col gap-4">
-            {/* Updated 'card' to 'glass-card' and added padding */}
-            <div className="glass-card flex-1 flex flex-col overflow-hidden p-5">
-              <div className="mb-4 grid grid-cols-2 gap-4">
-                <div className="form-group mb-0">
+          <div style={{ width: 450, display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div className="glass-card" style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: 20 }}>
+              <div style={{ marginBottom: 16, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div className="form-group" style={{ marginBottom: 0 }}>
                   <label className="form-label">Supplier *</label>
                   <select 
-                    className="form-input"
+                    className="form-select"
                     value={supplierId}
                     onChange={e => setSupplierId(e.target.value)}
                   >
@@ -163,7 +178,7 @@ export default function NewPurchase() {
                     {suppliers.map(s => <option key={s.id} value={s.id}>{s.supplier_name}</option>)}
                   </select>
                 </div>
-                <div className="form-group mb-0">
+                <div className="form-group" style={{ marginBottom: 0 }}>
                   <label className="form-label">Invoice Number *</label>
                   <input 
                     type="text" 
@@ -175,49 +190,55 @@ export default function NewPurchase() {
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto border-t border-b border-slate-700/50 py-4 mb-4">
+              <div style={{ flex: 1, overflowY: 'auto', borderTop: '1px solid var(--color-border)', borderBottom: '1px solid var(--color-border)', padding: '16px 0', marginBottom: 16 }}>
                 {cart.length === 0 ? (
-                  <div className="h-full flex flex-col items-center justify-center text-slate-500 gap-3">
-                    <ShoppingBag size={48} className="opacity-20" />
+                  <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-muted)', gap: 12 }}>
+                    <ShoppingBag size={48} style={{ opacity: 0.2 }} />
                     <p>No items added yet</p>
                   </div>
                 ) : (
-                  <div className="space-y-3">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                     {cart.map(item => (
-                      <div key={item.product_id} className="bg-slate-800/30 p-3 rounded-lg border border-slate-700/30">
-                        <div className="flex justify-between items-start mb-2">
-                          <div className="font-medium text-sm truncate pr-2">{item.product_name}</div>
+                      <div key={item.product_id} style={{
+                        background: 'var(--color-surface-hover)', padding: 12,
+                        borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-light)',
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+                          <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', paddingRight: 8 }}>{item.product_name}</div>
                           <button 
-                            className="text-rose-400/70 hover:text-rose-400"
+                            className="btn btn-ghost btn-icon btn-sm"
                             onClick={() => removeFromCart(item.product_id)}
+                            style={{ color: 'var(--color-danger)' }}
                           >
-                            <Trash2 size={16} />
+                            <Trash2 size={14} />
                           </button>
                         </div>
-                        <div className="flex items-center gap-3">
-                          <div className="flex-1">
-                            <label className="text-xs text-slate-400 block mb-1">Qty</label>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                          <div style={{ flex: 1 }}>
+                            <label style={{ fontSize: 11, color: 'var(--color-text-muted)', display: 'block', marginBottom: 4 }}>Qty</label>
                             <input 
                               type="number" 
                               min="1" 
-                              className="form-input text-center" 
+                              className="form-input" 
                               value={item.quantity}
                               onChange={(e) => updateCartItem(item.product_id, 'quantity', parseInt(e.target.value) || 1)}
+                              style={{ textAlign: 'center', padding: '6px 10px', fontSize: 13 }}
                             />
                           </div>
-                          <div className="flex-1">
-                            <label className="text-xs text-slate-400 block mb-1">Unit Cost</label>
+                          <div style={{ flex: 1 }}>
+                            <label style={{ fontSize: 11, color: 'var(--color-text-muted)', display: 'block', marginBottom: 4 }}>Unit Cost</label>
                             <input 
                               type="number" 
                               min="0" 
                               className="form-input" 
                               value={item.unit_price}
                               onChange={(e) => updateCartItem(item.product_id, 'unit_price', parseFloat(e.target.value) || 0)}
+                              style={{ padding: '6px 10px', fontSize: 13 }}
                             />
                           </div>
-                          <div className="flex-1 text-right">
-                            <label className="text-xs text-slate-400 block mb-1">Total</label>
-                            <div className="font-medium mt-1 pr-1">{formatCurrency(item.total)}</div>
+                          <div style={{ flex: 1, textAlign: 'right' }}>
+                            <label style={{ fontSize: 11, color: 'var(--color-text-muted)', display: 'block', marginBottom: 4 }}>Total</label>
+                            <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-text-primary)', paddingRight: 4, marginTop: 6 }}>{formatCurrency(item.total)}</div>
                           </div>
                         </div>
                       </div>
@@ -226,38 +247,41 @@ export default function NewPurchase() {
                 )}
               </div>
 
-              <div className="space-y-4 text-sm">
-                <div className="flex justify-between items-center text-slate-300">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 14 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--color-text-secondary)' }}>
                   <span>Subtotal</span>
                   <span>{formatCurrency(subtotal)}</span>
                 </div>
-                <div className="flex justify-between items-center gap-4 text-slate-300">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, color: 'var(--color-text-secondary)' }}>
                   <span>Discount</span>
                   <input 
                     type="number" 
-                    className="form-input w-24 text-right" 
+                    className="form-input" 
+                    style={{ width: 96, textAlign: 'right', padding: '6px 10px', fontSize: 13 }} 
                     value={discount}
                     onChange={e => setDiscount(parseFloat(e.target.value) || 0)}
                   />
                 </div>
-                <div className="flex justify-between items-center gap-4 text-slate-300">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, color: 'var(--color-text-secondary)' }}>
                   <span>Tax Amount</span>
                   <input 
                     type="number" 
-                    className="form-input w-24 text-right" 
+                    className="form-input" 
+                    style={{ width: 96, textAlign: 'right', padding: '6px 10px', fontSize: 13 }} 
                     value={taxAmount}
                     onChange={e => setTaxAmount(parseFloat(e.target.value) || 0)}
                   />
                 </div>
-                <div className="border-t border-slate-700/50 pt-3 flex justify-between items-center font-bold text-lg text-white">
+                <div style={{ height: 1, background: 'var(--color-border)', margin: '4px 0' }} />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 800, fontSize: 18, color: 'var(--color-text-primary)' }}>
                   <span>Total Amount</span>
-                  <span>{formatCurrency(totalAmount)}</span>
+                  <span className="text-gradient">{formatCurrency(totalAmount)}</span>
                 </div>
               </div>
 
-              <div className="mt-4 pt-4 border-t border-slate-700/50 grid grid-cols-2 gap-4">
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--color-border)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <select 
-                  className="form-input"
+                  className="form-select"
                   value={paymentStatus}
                   onChange={e => setPaymentStatus(e.target.value)}
                 >
@@ -277,11 +301,11 @@ export default function NewPurchase() {
                 )}
               </div>
 
-              {/* Updated button class to match UI spec */}
               <button 
-                className="btn btn-primary w-full mt-4 flex items-center justify-center gap-2 py-3"
+                className="btn btn-primary"
                 onClick={handleSubmit}
                 disabled={saving || cart.length === 0}
+                style={{ width: '100%', marginTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 14, fontSize: 15, fontWeight: 700 }}
               >
                 <Save size={18} />
                 {saving ? 'Recording...' : 'Record Purchase'}

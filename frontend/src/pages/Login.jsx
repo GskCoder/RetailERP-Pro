@@ -52,18 +52,18 @@ export default function Login() {
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'linear-gradient(135deg, #020617 0%, #0F172A 50%, #1E1B4B 100%)',
+      background: 'linear-gradient(135deg, #F5F3EF 0%, #EDE9E3 50%, #E8E4F0 100%)',
       padding: 20,
     }}>
       {/* Decorative background elements */}
-      <div style={{ position: 'absolute', top: '20%', left: '10%', width: 300, height: 300, borderRadius: '50%', background: 'rgba(79,70,229,0.05)', filter: 'blur(80px)' }} />
-      <div style={{ position: 'absolute', bottom: '20%', right: '10%', width: 400, height: 400, borderRadius: '50%', background: 'rgba(99,102,241,0.04)', filter: 'blur(100px)' }} />
+      <div style={{ position: 'absolute', top: '20%', left: '10%', width: 300, height: 300, borderRadius: '50%', background: 'rgba(99,102,241,0.08)', filter: 'blur(80px)' }} />
+      <div style={{ position: 'absolute', bottom: '20%', right: '10%', width: 400, height: 400, borderRadius: '50%', background: 'rgba(139,92,246,0.06)', filter: 'blur(100px)' }} />
 
       <div className="animate-slide-up" style={{
         width: '100%', maxWidth: 420, padding: 40,
-        background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(20px)',
-        borderRadius: 'var(--radius-xl)', border: '1px solid rgba(255,255,255,0.06)',
-        boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
+        background: '#FFFFFF',
+        borderRadius: 'var(--radius-xl)', border: '1px solid var(--color-border)',
+        boxShadow: '0 25px 50px rgba(0,0,0,0.08)',
         position: 'relative', zIndex: 1,
       }}>
         {/* Logo */}
@@ -72,7 +72,7 @@ export default function Login() {
             width: 56, height: 56, borderRadius: 'var(--radius-lg)',
             background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-light))',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            marginBottom: 16, boxShadow: '0 8px 24px rgba(79,70,229,0.3)',
+            marginBottom: 16, boxShadow: '0 8px 24px rgba(99,102,241,0.25)',
           }}>
             <Store size={28} color="white" />
           </div>

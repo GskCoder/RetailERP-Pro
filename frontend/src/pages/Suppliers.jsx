@@ -69,21 +69,22 @@ export default function Suppliers() {
       label: 'Actions',
       accessor: 'actions',
       render: (row) => (
-        <div className="flex items-center gap-2">
+        <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
           <button
-            className="p-1.5 text-indigo-400 hover:bg-indigo-400/10 rounded transition-colors"
+            className="btn btn-ghost btn-icon btn-sm"
             onClick={(e) => { e.stopPropagation(); handleEdit(row); }}
             title="Edit Supplier"
           >
-            <Edit2 size={16} />
+            <Edit2 size={14} />
           </button>
           {isAdmin && (
             <button
-              className="p-1.5 text-rose-400 hover:bg-rose-400/10 rounded transition-colors"
+              className="btn btn-ghost btn-icon btn-sm"
               onClick={(e) => { e.stopPropagation(); handleDelete(row); }}
               title="Delete Supplier"
+              style={{ color: 'var(--color-danger)' }}
             >
-              <Trash2 size={16} />
+              <Trash2 size={14} />
             </button>
           )}
         </div>

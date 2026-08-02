@@ -45,8 +45,8 @@ export default function AddPaymentModal({ isOpen, onClose, customer, onSuccess }
       footer={<><button className="btn btn-secondary" onClick={onClose}>Cancel</button><button className="btn btn-primary" onClick={handleSave} disabled={saving}>{saving ? 'Saving...' : 'Save Payment'}</button></>}
     >
       <div style={{ marginBottom: 16 }}>
-        <p style={{ fontSize: '0.9rem', color: 'var(--color-text-light)' }}>
-          Current Balance (Due): <strong style={{ color: 'var(--color-text)' }}>{formatCurrency(customer?.current_balance || 0)}</strong>
+        <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
+          Current Balance (Due): <strong style={{ color: 'var(--color-text-primary)' }}>{formatCurrency(customer?.current_balance || 0)}</strong>
         </p>
       </div>
       <form onSubmit={handleSave} style={{ display: 'grid', gap: 16 }}>
